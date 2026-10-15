@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parcel Tracking</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f8fc;
+      margin: 0;
+      color: #16324f;
+    }
+    .container {
+      max-width: 900px;
+      margin: 50px auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      padding: 25px;
+    }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .brand {
+      font-size: 22px;
+      font-weight: bold;
+      color: #0d4f8c;
+    }
+    .status {
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-weight: bold;
+      background: #eafaf1;
+      color: #1a9d5b;
+    }
+    .track-box {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    input {
+      flex: 1;
+      padding: 14px;
+      border: 1px solid #d9e5f0;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    button {
+      background: #0d4f8c;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .box {
+      background: #f8fbff;
+      border: 1px solid #e3edf7;
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #67809a;
+      margin-bottom: 6px;
+    }
+    .value {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .timeline {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #edf2f7;
+    }
+    .step {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #dfeaf5;
+      margin-top: 5px;
+      border: 3px solid white;
+      box-shadow: 0 0 0 1px #dfeaf5;
+    }
+    .step.done .dot {
+      background: #1ca66f;
+      box-shadow: 0 0 0 1px #1ca66f;
+    }
+    .step.active .dot {
+      background: #0d4f8c;
+      box-shadow: 0 0 0 1px #0d4f8c;
+    }
+    .step-title {
+      font-weight: bold;
+      margin-bottom: 3px;
+    }
+    .step-desc {
+      color: #5d7287;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top">
+      <div class="brand">Turkish Parcel Express</div>
+      <div class="status">In Transit</div>
+    </div>
+
+    <div class="track-box">
+      <input id="trackingInput" value="TRPT924871534PT" />
+      <button id="trackBtn">Track Parcel</button>
+    </div>
+
+    <div class="meta">
+      <div class="box">
+        <div class="label">Tracking Number</div>
+        <div class="value" id="trackingCode">TRPT924871534PT</div>
+      </div>
+      <div class="box">
+        <div class="label">Current Location</div>
+        <div class="value" id="locationText">Madrid, Spain</div>
+      </div>
+      <div class="box">
+        <div class="label">Estimated Delivery</div>
+        <div class="value" id="etaText">2 days</div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="step done">
+        <div class="dot"></div>
+        <div>
+          <div class="step-title">Order Received</div>
+          <div class="step-desc">Istanbul, Turkey • 08 Apr 2026</div>
+        </div>
+      </div>
+
+      <div class="step done">
+        <div class="dot"></div>
+        <div>
+          <div class="step-title">Package Picked Up</div>
+          <div class="step-desc">Logistics center • 09 Apr 2026</div>
+        </div>
+      </div>
+
+      <div class="step done">
+        <div class="dot"></div>
+        <div>
+          <div class="step-title">Customs Clearance</div>
+          <div class="step-desc">Export hub • 12 Apr 2026</div>
+        </div>
+      </div>
+
+      <div class="step active">
+        <div class="dot"></div>
+        <div>
+          <div class="step-title">In International Transit</div>
+          <div class="step-desc">Current location: Madrid, Spain</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="dot"></div>
+        <div>
+          <div class="step-title">Arrival in Portugal</div>
+          <div class="step-desc">Expected in Lisbon</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="dot"></div>
+        <div>
+          <div class="step-title">Out for Delivery</div>
+          <div class="step-desc">Final delivery window</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const validCodes = [
+      "TRPT924871534PT",
+      "TRPT118754902PT",
+      "TRPT547882110PT"
+    ];
+
+    const trackingInput = document.getElementById("trackingInput");
+    const trackingCode = document.getElementById("trackingCode");
+    const locationText = document.getElementById("locationText");
+    const etaText = document.getElementById("etaText");
+    const trackBtn = document.getElementById("trackBtn");
+
+    function updateTracking() {
+      const code = trackingInput.value.trim().toUpperCase();
+      trackingCode.textContent = code;
+
+      if (validCodes.includes(code)) {
+        locationText.textContent = "Madrid, Spain";
+        etaText.textContent = "2 days";
+      } else {
+        locationText.textContent = "Awaiting scan";
+        etaText.textContent = "Pending";
+      }
+    }
+
+    trackBtn.addEventListener("click", updateTracking);
+    trackingInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") updateTracking();
+    });
+
+    updateTracking();
+  </script>
+</body>
+</html>
